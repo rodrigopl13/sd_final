@@ -27,7 +27,8 @@ public class HelloWorld {
 	HiTechnicCompass compasSensor;
 	SampleProvider compasProvider;
 	float[] compasSample;
-			
+	public static final int WHEELDIST = 115;
+	public static final int WHEELSIZE = 56;
 	
 
 	 public static void main(String[] args) {
@@ -53,11 +54,20 @@ public class HelloWorld {
 	  gyroProvider = gyroSensor.getAngleMode();
 	  gyroSample = new float[gyroProvider.sampleSize()];*/
 	  
-	  Port s2 = LocalEV3.get().getPort("S2");
-	  compasSensor = new HiTechnicCompass(s2);
-	  compasProvider = compasSensor.getCompassMode();
-	  compasSample = new float[compasProvider.sampleSize()];
+	  Port s3 = LocalEV3.get().getPort("S3");
+	  compasSensor = new HiTechnicCompass(s3);
 	  
+	  Motor.B.setSpeed(60);
+	  int degrees = 0;
+	  degrees = ((numRotations() *4)/2)*450;
+	  System.out.println("degrees is "+degrees);
+	  compasSensor.startCalibration();
+	  Motor.B.rotate(degrees);
+	  while(Motor.B.isMoving()) Thread.yield();
+	  compasSensor.stopCalibration();
+		  
+	  compasProvider = compasSensor.getAngleMode();
+	  compasSample = new float[compasProvider.sampleSize()];
 
 	  while (Button.ESCAPE.isUp()) {
 
@@ -91,9 +101,12 @@ public class HelloWorld {
 		  
 		  
 		  //compasSensor
-		  /*compasProvider.fetchSample(compasSample, 0);
+		  compasProvider.fetchSample(compasSample, 0);
 		  System.out.println("compas: " + compasSample[0]);
+		  Motor.B.rotate(90);
+		  //Delay.msDelay(2000);
 		  
+		  /*
 		  Motor.B.forward();Motor.C.forward();
 		  Delay.msDelay(1000);
 		  
@@ -113,10 +126,13 @@ public class HelloWorld {
 		  Motor.B.forward();Motor.C.forward();*/
 		  
 		  //the rotation is relative to the tire
-		  Motor.B.rotate(-360);
+		  //Motor.B.rotate(-360);
 		  
-		  Delay.msDelay(2000);
+		  Delay.msDelay(1000);
 
 	  	}
+	 }
+	 public static int numRotations() {
+		 return ((WHEELDIST * 3142)/1000)/((WHEELSIZE * 3142)/1000);
 	 }
 }
