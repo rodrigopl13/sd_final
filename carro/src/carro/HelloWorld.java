@@ -107,7 +107,10 @@ public class HelloWorld {
 		  //compasSensor
 		  compasProvider.fetchSample(compasSample, 0);
 		  System.out.println("compas: " + compasSample[0]);
-		  Motor.B.rotate(90);
+		  if(compasSample[0] <= 10 && compasSample[0] >= -10)
+			  Motor.B.stop();
+		  else
+			  Motor.B.rotate(45);
 		  //Delay.msDelay(2000);
 		  
 		  /*
@@ -132,7 +135,7 @@ public class HelloWorld {
 		  //the rotation is relative to the tire
 		  //Motor.B.rotate(-360);
 		  
-		  Delay.msDelay(1000);
+		  Delay.msDelay(500);
 
 	  	}
 	 }
