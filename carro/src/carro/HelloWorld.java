@@ -8,6 +8,10 @@ import lejos.hardware.sensor.HiTechnicCompass;
 import lejos.utility.Delay;
 import lejos.robotics.SampleProvider;
 
+/*
+ * Helloworld
+ */
+
 public class HelloWorld {
 
 	/*EV3ColorSensor colorSensor;
