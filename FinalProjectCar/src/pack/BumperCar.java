@@ -31,7 +31,7 @@ public class BumperCar {
 		touch = new TouchSensorTest(sensor);
 		
 		pilot.forward();
-		while(true) {
+		while(Button.ESCAPE.isUp()) {
 			Delay.msDelay(2);
 			if(touch.pressed()) {
 				pilot.stop();
@@ -41,11 +41,7 @@ public class BumperCar {
 				} else {
 					pilot.forward();
 				}
-				if(Button.ESCAPE.isDown()) {
-					pilot.stop();
-					sensor.close();
-					System.exit(0);
-				}
+				pilot.forward();
 			}
 		}
 	}
